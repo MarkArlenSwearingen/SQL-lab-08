@@ -7,11 +7,19 @@ require('dotenv').config();
 const express =require('express');
 const cors = require('cors');
 const superagent = require('superagent')
+const pg = require('pg');
 
 const PORT = process.env.PORT;
 const app = express();
 
 app.use(cors());
+
+const DATABASE_URL = 'https://quiet-fortress-51894.herokuapp.com/';
+
+//create constructor for client
+
+const client = new pg.Client(process.env.DATABASE_URL);
+client.on('error', err => console.err(err));
 
 // Routes
 app.get('/', homePage);
@@ -74,4 +82,11 @@ function errorHandler(error,request,response) {
 app.use('*', (request, response) => response.send('Sorry, that route does not exist.'));
 
 // PORT to for the server to listen too
-app.listen(PORT, () => console.log(`App is listening on ${PORT}`));
+// start express server after database connection is established.  put in a handler function with the error routes.
+client.connect()
+  .then( () =>{
+    app.listen(PORT, () => console.log(`Server and database are up. App is listening on ${PORT}`));
+  })
+
+
+
