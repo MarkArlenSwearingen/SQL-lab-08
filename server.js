@@ -73,6 +73,24 @@ function Location(city, geoData) {
   this.longitude = geoData.results[0].geometry.location.lng;
 }
 
+//Helper functions
+function checkLocationDB(location){
+ // does location exist in DB?
+ //if yes, call to get location data
+ //if not, call to api to get data, 
+ //add to api functions a call to saveLocationToDB  upon receiving data.
+}
+
+function saveLocationToDB(location){
+  // write the data received to the SQL database.
+}
+
+function getDataFromDB (
+  // get data from database for save location.
+)
+
+
+
 // Error Handler function to throw
 function errorHandler(error,request,response) {
   response.status(500).send(error);
